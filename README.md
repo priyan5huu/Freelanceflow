@@ -1,5 +1,8 @@
 # FreelanceFlow - Freelance Marketplace
 
+[![Deployment Status](https://img.shields.io/badge/Vercel-Deployed-brightgreen)](https://freelanceflow-ophgjnk6s-priyanshu-pandeys-projects-7f754995.vercel.app/)
+[![Demo Available](https://img.shields.io/badge/Demo-Available-blue)](https://freelanceflow-ophgjnk6s-priyanshu-pandeys-projects-7f754995.vercel.app/login)
+
 A modern, full-stack freelance marketplace built with React, Node.js, Express, and MongoDB.
 
 ## 🚀 Live Demo
