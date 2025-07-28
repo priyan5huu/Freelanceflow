@@ -2,6 +2,10 @@
 
 A modern, full-stack freelance marketplace built with React, Node.js, Express, and MongoDB.
 
+## 🚀 Live Demo
+
+Visit the live application: **[https://freelanceflow-rho.vercel.app/](https://freelanceflow-rho.vercel.app/)**
+
 ## Features
 
 ### Current Implementation (50% MVP)
