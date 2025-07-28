@@ -4,37 +4,14 @@ A modern, full-stack freelance marketplace built with React, Node.js, Express, a
 
 ## 🚀 Live Demo
 
-Visit the live application: **[https://freelanceflow-rho.vercel.app/](https://freelanceflow-rho.vercel.app/)**
+**Production URL**: [https://freelanceflow-ophgjnk6s-priyanshu-pandeys-projects-7f754995.vercel.app/](https://freelanceflow-ophgjnk6s-priyanshu-pandeys-projects-7f754995.vercel.app/)
 
 ### Quick Demo Access
-**🎯 One-Click Demo Login:**
-- Visit the login page and click **"Demo Client"** or **"Demo Freelancer"** buttons
-- No typing required - instant access!
+Click the **Demo Client** or **Demo Freelancer** buttons on the login page for instant access.
 
-**📋 Manual Login (if needed):**
-- **Client Account**: `client@demo.com` / `password123`
-- **Freelancer Account**: `freelancer@demo.com` / `password123`
-
-**✅ Demo Features:**
-- Pre-populated projects and bids
-- Full functionality without registration
-- Auto-created demo accounts
-- Persistent demo data
-
-### 🔧 Deployment Status
-- **Frontend**: ✅ Deployed on Vercel
-- **Backend**: ⚠️ Requires MongoDB Atlas setup
-- **Demo Accounts**: 🔄 Auto-initialize on first API call
-
-### 📊 Health Check
-Check if the demo is working: [API Health Status](https://freelanceflow-rho.vercel.app/api/auth)
-
-### 🚨 If Demo Login Fails:
-1. **MongoDB not connected** - Check Vercel environment variables
-2. **CORS issues** - API routes may need configuration
-3. **Demo accounts missing** - Health check will recreate them
-
-For deployment troubleshooting, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
+**Demo Credentials** (if needed):
+- **Client**: `client@demo.com` / `password123`
+- **Freelancer**: `freelancer@demo.com` / `password123`
 
 ## Features
 
@@ -136,16 +113,21 @@ After seeding the database, you can use these demo accounts:
 freelanceflow/
 ├── src/                    # Frontend React application
 │   ├── components/         # Reusable UI components
+│   │   ├── landing/        # Landing page components
+│   │   └── ...             # Form, navigation components
 │   ├── contexts/          # React contexts (Auth)
-│   ├── pages/             # Page components
-│   └── main.tsx           # App entry point
+│   ├── pages/             # Main application pages
+│   └── main.tsx           # Application entry point
 ├── server/                # Backend Node.js application
-│   ├── models/            # MongoDB models
-│   ├── routes/            # Express routes
-│   ├── middleware/        # Custom middleware
-│   ├── scripts/           # Utility scripts
+│   ├── models/            # MongoDB data models
+│   ├── routes/            # Express API routes
+│   ├── middleware/        # Authentication middleware
+│   ├── scripts/           # Database utilities
 │   └── server.js          # Server entry point
-└── README.md
+├── api/                   # Vercel serverless functions
+│   ├── auth/              # Authentication endpoints
+│   └── health.js          # Health check endpoint
+└── public/                # Static assets
 ```
 
 ## API Endpoints
