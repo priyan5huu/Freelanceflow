@@ -1,0 +1,11 @@
+{
+  "name": "freelanceflow-api",
+  "version": "1.0.0",
+  "description": "FreelanceFlow API for Vercel",
+  "main": "auth.js",
+  "dependencies": {
+    "mongoose": "^7.5.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

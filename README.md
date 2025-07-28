@@ -7,23 +7,34 @@ A modern, full-stack freelance marketplace built with React, Node.js, Express, a
 Visit the live application: **[https://freelanceflow-rho.vercel.app/](https://freelanceflow-rho.vercel.app/)**
 
 ### Quick Demo Access
-For immediate testing, use these demo accounts:
+**🎯 One-Click Demo Login:**
+- Visit the login page and click **"Demo Client"** or **"Demo Freelancer"** buttons
+- No typing required - instant access!
 
-**Option 1: Demo Login Buttons**
-- Visit the login page and click "Demo Client" or "Demo Freelancer" buttons
-
-**Option 2: Manual Login**
+**📋 Manual Login (if needed):**
 - **Client Account**: `client@demo.com` / `password123`
 - **Freelancer Account**: `freelancer@demo.com` / `password123`
 
-**Demo Features:**
-- ✅ Pre-populated projects and bids
-- ✅ Full functionality without registration
-- ✅ Persistent demo data
-- ✅ No email verification required
+**✅ Demo Features:**
+- Pre-populated projects and bids
+- Full functionality without registration
+- Auto-created demo accounts
+- Persistent demo data
 
-### API Health Check
-Check if the demo is working: [API Health Status](https://freelanceflow-rho.vercel.app/api/auth/health)
+### 🔧 Deployment Status
+- **Frontend**: ✅ Deployed on Vercel
+- **Backend**: ⚠️ Requires MongoDB Atlas setup
+- **Demo Accounts**: 🔄 Auto-initialize on first API call
+
+### 📊 Health Check
+Check if the demo is working: [API Health Status](https://freelanceflow-rho.vercel.app/api/auth)
+
+### 🚨 If Demo Login Fails:
+1. **MongoDB not connected** - Check Vercel environment variables
+2. **CORS issues** - API routes may need configuration
+3. **Demo accounts missing** - Health check will recreate them
+
+For deployment troubleshooting, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
 
 ## Features
 
