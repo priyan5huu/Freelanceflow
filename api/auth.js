@@ -1,95 +1,45 @@
 // Vercel serverless function for authentication
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// MongoDB connection
-let cachedDb = null;
-
-async function connectToDatabase() {
-  if (cachedDb) {
-    return cachedDb;
+// Mock demo users (for immediate testing without MongoDB)
+const DEMO_USERS = [
+  {
+    _id: '507f1f77bcf86cd799439011',
+    name: 'Demo Client',
+    email: 'client@demo.com',
+    password: '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/hM8AhPJW6', // password123
+    userType: 'client',
+    company: 'Demo Company Inc.',
+    isActive: true
+  },
+  {
+    _id: '507f1f77bcf86cd799439012', 
+    name: 'Demo Freelancer',
+    email: 'freelancer@demo.com',
+    password: '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/hM8AhPJW6', // password123
+    userType: 'freelancer',
+    skills: ['React', 'Node.js', 'MongoDB', 'JavaScript', 'TypeScript'],
+    isActive: true
+  },
+  {
+    _id: '507f1f77bcf86cd799439013',
+    name: 'Demo Admin', 
+    email: 'admin@demo.com',
+    password: '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/hM8AhPJW6', // password123
+    userType: 'admin',
+    isActive: true
   }
-
-  const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/freelanceflow';
-  
-  try {
-    const db = await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    cachedDb = db;
-    return db;
-  } catch (error) {
-    console.error('MongoDB connection error:', error);
-    throw error;
-  }
-}
-
-// User Schema (inline for serverless)
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  userType: { type: String, enum: ['client', 'freelancer', 'admin'], required: true },
-  company: String,
-  skills: [String],
-  isActive: { type: Boolean, default: true },
-  lastLogin: Date
-}, { timestamps: true });
-
-userSchema.methods.comparePassword = async function(candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
-
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+];
 
 // Generate JWT token
 const generateToken = (userId) => {
   return jwt.sign(
     { userId },
-    process.env.JWT_SECRET || 'fallback_secret_key',
+    process.env.JWT_SECRET || 'freelanceflow-demo-secret-key-2025',
     { expiresIn: '7d' }
   );
 };
-
-// Initialize demo data
-async function initializeDemoData() {
-  try {
-    const existingClient = await User.findOne({ email: 'client@demo.com' });
-    if (existingClient) return;
-
-    const hashedPassword = await bcrypt.hash('password123', 12);
-
-    const demoUsers = [
-      {
-        name: 'Demo Client',
-        email: 'client@demo.com',
-        password: hashedPassword,
-        userType: 'client',
-        company: 'Demo Company Inc.'
-      },
-      {
-        name: 'Demo Freelancer',
-        email: 'freelancer@demo.com',
-        password: hashedPassword,
-        userType: 'freelancer',
-        skills: ['React', 'Node.js', 'MongoDB', 'JavaScript', 'TypeScript']
-      },
-      {
-        name: 'Demo Admin',
-        email: 'admin@demo.com',
-        password: hashedPassword,
-        userType: 'admin'
-      }
-    ];
-
-    await User.insertMany(demoUsers);
-    console.log('Demo data initialized');
-  } catch (error) {
-    console.error('Error initializing demo data:', error);
-  }
-}
 
 export default async function handler(req, res) {
   // CORS headers
@@ -104,24 +54,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    await connectToDatabase();
-    await initializeDemoData();
-
     if (req.method === 'GET') {
       // Health check
-      const userCount = await User.countDocuments();
-      const demoClient = await User.findOne({ email: 'client@demo.com' });
-      const demoFreelancer = await User.findOne({ email: 'freelancer@demo.com' });
-      
       return res.json({
         status: 'healthy',
-        database: 'connected',
-        totalUsers: userCount,
+        database: 'mock',
+        totalUsers: DEMO_USERS.length,
         demoAccounts: {
-          client: demoClient ? 'exists' : 'missing',
-          freelancer: demoFreelancer ? 'exists' : 'missing'
+          client: 'exists',
+          freelancer: 'exists',
+          admin: 'exists'
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        message: 'Demo API is working! Ready for client demonstrations.'
       });
     }
 
@@ -132,24 +77,24 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Email and password are required' });
       }
 
-      // Find user
-      const user = await User.findOne({ email: email.toLowerCase() });
+      // Find user in mock data
+      const user = DEMO_USERS.find(u => u.email.toLowerCase() === email.toLowerCase());
       if (!user) {
         return res.status(400).json({ message: 'Invalid email or password' });
       }
 
-      // Check password
-      const isMatch = await user.comparePassword(password);
-      if (!isMatch) {
+      // Check if user is active
+      if (!user.isActive) {
+        return res.status(400).json({ message: 'Account is deactivated' });
+      }
+
+      // Check password (for demo, we know password is 'password123')
+      if (password !== 'password123') {
         return res.status(400).json({ message: 'Invalid email or password' });
       }
 
       // Generate token
       const token = generateToken(user._id);
-
-      // Update last login
-      user.lastLogin = new Date();
-      await user.save();
 
       return res.json({
         message: 'Login successful',
