@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const initializeDemoData = require('./utils/initializeDemo');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
@@ -73,9 +74,13 @@ const connectDB = async () => {
 
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
+connectDB().then(async () => {
+  // Initialize demo data if needed
+  await initializeDemoData();
+  
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(`Demo available at: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
   });
 });
 

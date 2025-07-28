@@ -6,6 +6,35 @@ const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
+// @route   GET /api/auth/health
+// @desc    Health check for demo purposes
+// @access  Public
+router.get('/health', async (req, res) => {
+  try {
+    // Check database connection
+    const userCount = await User.countDocuments();
+    const demoClient = await User.findOne({ email: 'client@demo.com' });
+    const demoFreelancer = await User.findOne({ email: 'freelancer@demo.com' });
+    
+    res.json({
+      status: 'healthy',
+      database: 'connected',
+      totalUsers: userCount,
+      demoAccounts: {
+        client: demoClient ? 'exists' : 'missing',
+        freelancer: demoFreelancer ? 'exists' : 'missing'
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'unhealthy',
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // Validation rules
 const signupValidation = [
   body('name')

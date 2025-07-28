@@ -39,6 +39,7 @@ const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: yupResolver(schema),
@@ -260,6 +261,50 @@ const Login: React.FC = () => {
                   </>
                 )}
               </motion.button>
+
+              {/* Demo Login Buttons */}
+              <div className="space-y-3">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-neutral-300" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-3 bg-white text-neutral-600 font-medium">Quick Demo Access</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <motion.button
+                    type="button"
+                    onClick={() => {
+                      setValue('email', 'client@demo.com');
+                      setValue('password', 'password123');
+                      handleSubmit(onSubmit)();
+                    }}
+                    className="btn-secondary text-sm py-2.5 font-medium"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    disabled={isLoading}
+                  >
+                    Demo Client
+                  </motion.button>
+                  
+                  <motion.button
+                    type="button"
+                    onClick={() => {
+                      setValue('email', 'freelancer@demo.com');
+                      setValue('password', 'password123');
+                      handleSubmit(onSubmit)();
+                    }}
+                    className="btn-secondary text-sm py-2.5 font-medium"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    disabled={isLoading}
+                  >
+                    Demo Freelancer
+                  </motion.button>
+                </div>
+              </div>
             </motion.form>
 
             <motion.div 

@@ -6,6 +6,25 @@ A modern, full-stack freelance marketplace built with React, Node.js, Express, a
 
 Visit the live application: **[https://freelanceflow-rho.vercel.app/](https://freelanceflow-rho.vercel.app/)**
 
+### Quick Demo Access
+For immediate testing, use these demo accounts:
+
+**Option 1: Demo Login Buttons**
+- Visit the login page and click "Demo Client" or "Demo Freelancer" buttons
+
+**Option 2: Manual Login**
+- **Client Account**: `client@demo.com` / `password123`
+- **Freelancer Account**: `freelancer@demo.com` / `password123`
+
+**Demo Features:**
+- ✅ Pre-populated projects and bids
+- ✅ Full functionality without registration
+- ✅ Persistent demo data
+- ✅ No email verification required
+
+### API Health Check
+Check if the demo is working: [API Health Status](https://freelanceflow-rho.vercel.app/api/auth/health)
+
 ## Features
 
 ### Current Implementation (50% MVP)
